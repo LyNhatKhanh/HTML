@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/821a4c6a56.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      select {
+        font-family: "FontAwesome", "sans-serif";
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Document</h1>
+    <div id="test">
+      <p>Hello, world!</p>
+      <p>TODO list</p>
+      <input
+        type="text"
+        placeholder="which activity you want to add?"
+        size="50px"
+        id="newTodo"
+      />
+      <!-- <button onclick="addTodo()">Submit</button> -->
+      <button id="submit">Submit</button>
+      <ul class="list"></ul>
+    </div>
+
+    <!------------------------------- Script --------------------------------->
+    <!------------------------------- Script --------------------------------->
+    <script type="text/javascript">
+    
+      var storageKey = "todo";
+      // var todo = ["Take a shower", "Have a walk", "Study"];
+      var dataString = localStorage.getItem(storageKey);
+      var todo;
+
+      if (dataString) {
+        console.log("Have Storage");
+        todo = JSON.parse(dataString);
+      } else {
+        console.log("Empty Storage");
+        todo = [];
+      }
+
+      // ------------------------------- renderList() ---------------------------------
+      function renderList() {
+        var content = todo.map(function (x) {
+          return "<li>" + x + "</li>";
+        });
+        console.log(content);
+        var htmlList = document.querySelector(".list");
+        // var htmlList = document.getElementsByClassName("list").item(0);
+        htmlList.innerHTML = content.join("");
+      }
+      renderList();
+
+      var btnSubmit = document.getElementById("submit");
+      // btnSubmit.onclick = addTodo;
+      // Không phải addTodo() vì mặc định ở đây là function, nếu thêm () thì sẽ ra undefined vì hàm không có return
+      // ### .onclick chỉ có thể đki 1 listener, AEL đki được nhiều eventListener cho 1 sự kiện
+      btnSubmit.addEventListener("click", addTodo);
+      btnSubmit.addEventListener("click", () => {
+        console.log("listener 2...");
+      });
+
+      var input = document.getElementById("newTodo");
+      input.addEventListener("change", updateSessionStorage);
+      input.value = sessionStorage.getItem("draft");
+      function updateSessionStorage() {
+        sessionStorage.setItem("draft", input.value);
+      }
+
+      // ------------------------------- addTodo() ---------------------------------
+      function addTodo() {
+        // var input = document.getElementsByClassName('newTodo').item(0); Nếu là class
+        var newTodo = input.value;
+        todo.push(newTodo);
+        console.log(todo);
+        renderList();
+        localStorage.setItem(storageKey, JSON.stringify(todo));
+        input.value = "";
+      }
+    </script>
+  </body>
+</html>

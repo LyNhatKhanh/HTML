@@ -1,0 +1,6 @@
+--- Bài 23 - XSS: Lọc HTML tag (ở server side) -> tránh bị tấn công ---
+Nên sử dụng innerHTML thay vì jQuery.html() vì:
++ innerHTML: có thêm 1 dòng input là script vào thì web sẽ 
+không chạy script đó (Không bị tấn công vào db)
++ jQuery.html(): thêm vào sẽ execute các câu lệnh
+bên trong (dễ bị tấn công và db)

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/821a4c6a56.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      select {
+        font-family: "FontAwesome", "sans-serif";
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Document</h1>
+    <div id="test">
+      <p>Hello, world!</p>
+      <p>TODO list</p>
+      <input
+        type="text"
+        placeholder="which activity you want to add?"
+        size="50px"
+        id="newTodo"
+      />
+      <button id="submit">Submit</button>
+      <ul class="list"></ul>
+    </div>
+
+    <!------------------------------- Script --------------------------------->
+    <!------------------------------- Script --------------------------------->
+    <script type="text/javascript">
+      var storageKey = "todo";
+      var dataString = localStorage.getItem(storageKey);
+      var htmlList = document.querySelector(".list");
+      var btnSubmit = document.getElementById("submit");
+      var input = document.getElementById("newTodo");
+      var todo;
+
+      if (dataString) {
+        console.log("Have Storage");
+        todo = JSON.parse(dataString);
+      } else {
+        console.log("Empty Storage");
+        todo = [];
+      }
+
+      // ------------------------------- addEventListener of button ---------------------------------
+      btnSubmit.addEventListener("click", addTodo);
+      htmlList.addEventListener("click", onListClicked);
+
+      // ------------------------------- function of button ---------------------------------
+      
+      // *************** addTodo() ***************
+      function addTodo() {
+        var newTodo = input.value;
+        todo.push(newTodo);
+        console.log(todo);
+        renderList();
+        localStorage.setItem(storageKey, JSON.stringify(todo));
+        input.value = "";
+      }
+
+      // *************** onListClicked() ***************
+      function onListClicked(evt) {
+        var button = evt.target;
+        var id = parseInt(button.dataset.id);
+        todo.splice(id,1);
+        renderList();
+        localStorage.setItem(storageKey, JSON.stringify(todo));
+      }
+
+      // ------------------------------- renderList() ---------------------------------
+      function renderList() {
+        var content = todo.map(function (x, i) {
+          return "<li>" + x + "<button data-id=" + i + ">Del</button></li>";
+        });
+        // console.log(content);
+
+        htmlList.innerHTML = content.join("");
+      }
+      renderList();
+    </script>
+  </body>
+</html>

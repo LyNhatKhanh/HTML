@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/821a4c6a56.js"
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      * {
+        font-family: "FontAwesome", "sans-serif";
+      }
+    </style>
+    <!-- icon -->
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Danh sach hoc sinh</h1>
+    <span>Age: </span>
+    <select name="filter-age" id="filter-age"></select>
+    <p></p>
+    <table border="5px" id="list-student" width="400px">
+      <!-- <tr>
+            <th>Ten <select id='sort-name'><option value='up'>&#xf0d8;</option><option value='down'>&#xf0d7;</i></option></select></th>
+            <th>Tuoi <select id='sort-age'><option value='1'>&#xf0d8;</option><option value='2' selected>&#xf0d7;</i></option></select></th>
+            <th>Gioi Tinh <select id='sort-gender'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>
+        </tr> -->
+    </table>
+
+    <!------------------------------- Script --------------------------------->
+    <!------------------------------- Script --------------------------------->
+    <script>
+      list = [
+        { name: "Khanh", age: 22, gender: "Nam" },
+        { name: "Hang", age: 24, gender: "Nu" },
+        { name: "Ngan", age: 28, gender: "Nu" },
+        { name: "Trung", age: 28, gender: "Nam" },
+      ];
+
+      renderList();
+      renderOptionsFilterAge();
+
+      let age = document.getElementById("filter-age");
+      age.addEventListener("change", filterAge);
+
+      let sortByName = document.getElementById("sort-name");
+      sortByName.addEventListener("change", sortName);
+
+      //   let sortByAge = document.getElementById("sort-age");
+      //   sortByAge.addEventListener("change", sortAge);
+
+      //   let sortByGender = document.getElementById("sort-gender");
+      //   sortByAge.addEventListener("change", sortGender);
+
+      function sortName() {
+        var header;
+        if (sortByName.value == 1) {
+          console.log("dk1...");
+          var listName = list.sort(function (x, y) {
+            return x.name.localeCompare(y.name);
+          });
+          var showList = listName.map(function (x) {
+            return (
+              "<tr align='center'><td>" +
+              x.name +
+              "</td>" +
+              "<td>" +
+              x.age +
+              "</td>" +
+              "<td>" +
+              x.gender +
+              "</td></tr>"
+            );
+          });
+          header =
+            "<tr><th>Ten <select id='sort-name'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+            "<th>Tuoi <select id='sort-age'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+            "<th>Gioi Tinh <select id='sort-gender'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th></tr>";
+        } else {
+          console.log("dk2...");
+          var listName = list.sort(function (x, y) {
+            return y.name.localeCompare(x.name);
+          });
+          var showList = listName.map(function (x) {
+            return (
+              "<tr align='center'><td>" +
+              x.name +
+              "</td>" +
+              "<td>" +
+              x.age +
+              "</td>" +
+              "<td>" +
+              x.gender +
+              "</td></tr>"
+            );
+          });
+        }
+        header =
+          "<tr><th>Ten <select id='sort-name'><option value='1' >&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Tuoi <select id='sort-age'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Gioi Tinh <select id='sort-gender'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th></tr>";
+
+        let table = document.getElementById("list-student");
+        table.innerHTML = header + showList.join("");
+      }
+
+      function filterAge() {
+        let selector = age.value;
+        let infoAge = list.map(function (x) {
+          if (x.age == parseInt(selector))
+            return (
+              "<tr align='center'><td>" +
+              x.name +
+              "</td>" +
+              "<td>" +
+              x.age +
+              "</td>" +
+              "<td>" +
+              x.gender +
+              "</td></tr>"
+            );
+          if (selector == "All")
+            return (
+              "<tr align='center'><td>" +
+              x.name +
+              "</td>" +
+              "<td>" +
+              x.age +
+              "</td>" +
+              "<td>" +
+              x.gender +
+              "</td></tr>"
+            );
+        });
+        let header =
+          "<tr><th>Ten <select id='sort-name'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Tuoi <select id='sort-age'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Gioi Tinh <select id='sort-gender'><option value='1'>&#xf0d8;</option><option value='2'>&#xf0d7;</i></option></select></th></tr>";
+        let table = document.getElementById("list-student");
+        table.innerHTML = header + infoAge.join("");
+      }
+
+      function renderList() {
+        let info = list.map(function (x) {
+          return (
+            "<tr align='center'><td>" +
+            x.name +
+            "</td>" +
+            "<td>" +
+            x.age +
+            "</td>" +
+            "<td>" +
+            x.gender +
+            "</td></tr>"
+          );
+        });
+        let header =
+          "<tr><th>Ten <select id='sort-name'><option value='1'>&#xf0d8;</option><option><i class='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Tuoi <select id='sort-age'><option value='1'>&#xf0d8;</option><option><i class='2'>&#xf0d7;</i></option></select></th>" +
+          "<th>Gioi Tinh <select id='sort-gender'><option value='1'>&#xf0d8;</option><option><i class='2'>&#xf0d7;</i></option></select></th></tr>";
+        let table = document.getElementById("list-student");
+        table.innerHTML = header + info.join("");
+      }
+
+      function renderOptionsFilterAge() {
+        let infoAge = list.map(function (x) {
+          return "<option>" + x.age + "</option>";
+        });
+        let filter = document.getElementById("filter-age");
+        let header = "<option>All</option>";
+        filter.innerHTML = header + infoAge.join("");
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/821a4c6a56.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <style>
+      select {
+        font-family: "FontAwesome", "sans-serif";
+      }
+    </style>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Document</h1>
+    <div id="test">
+      <p>Hello, world!</p>
+      <p>TODO list</p>
+      <input
+        type="text"
+        placeholder="which activity you want to add?"
+        size="50px"
+        id="newTodo"
+      />
+      <!-- <button onclick="addTodo()">Submit</button> -->
+      <button id="submit">Submit</button>
+      <ul class="list"></ul>
+    </div>
+
+    <!------------------------------- Script --------------------------------->
+    <!------------------------------- Script --------------------------------->
+    <script type="text/javascript">
+      // json-server --watch db.json --port 9081
+      // add module => khong xai duoc
+      // var axios = require('axios/dist/browser/axios.cjs');
+
+      var url = "http://localhost:9081/todo";
+      var htmlList = document.querySelector(".list");
+      var btnSubmit = document.getElementById("submit");
+
+      // ------------------------------- render database  ---------------------------------
+      axios.get(url).then(function (res) {
+        var items = res.data;
+        renderList(items);
+      });
+
+      // ------------------------------- addEventListener of button ---------------------------------
+      btnSubmit.addEventListener("click", addTodo);
+
+      // *************** addTodo() ***************
+      function addTodo() {
+        var input = document.getElementById("newTodo");
+        var newItem = {
+          content: input.value
+        };
+        axios.post(url,newItem).then(function(item) {
+          console.log('item saved ', item)
+        });
+        axios.get(url).then(function (res) {
+        var items = res.data;
+        renderList(items);
+      });
+        renderList(items)
+      }
+
+      // ------------------------------- renderList() ---------------------------------
+      function renderList(items) {
+        var content = items.map(function (x) {
+          return "<li>" + x.content + "</li>";
+        });
+        console.log(content);
+        htmlList.innerHTML = content.join("");
+      }
+
+      // window.location.href = '___' => Chuyển trang
+    </script>
+  </body>
+</html>
